@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Future Estate</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="admin">
+    <h2>Admin Login</h2>
+    <form id="loginForm">
+      <label for="username">Username:</label>
+      <input type="text" id="username" placeholder="Enter username" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" placeholder="Enter password" required>
+
+      <button type="submit">Login</button>
+    </form>
+    <p id="error" style="color:red; text-align:center; margin-top:10px;"></p>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById("loginForm");
+    const errorMsg = document.getElementById("error");
+
+    // Set your admin credentials here
+    const adminUsername = "futureadmin";
+    const adminPassword = "estate123";
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      if (user === adminUsername && pass === adminPassword) {
+        // Redirect to admin panel
+        window.location.href = "admin.html";
+      } else {
+        errorMsg.textContent = "❌ Invalid username or password!";
+      }
+    });
+  </script>
+
+</body>
+</html>

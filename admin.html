@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Future Estate</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="admin">
+    <h2>Manage Properties</h2>
+    <form id="propertyForm">
+      <label for="title">Property Title:</label>
+      <input type="text" id="title" placeholder="e.g. 3 Marla House" required>
+
+      <label for="location">Location:</label>
+      <input type="text" id="location" placeholder="e.g. Gulraiz, Rawalpindi" required>
+
+      <label for="price">Price:</label>
+      <input type="text" id="price" placeholder="e.g. PKR 12,000,000" required>
+
+      <label for="image">Image Link:</label>
+      <input type="text" id="image" placeholder="e.g. images/house1.jpg" required>
+
+      <button type="submit">Add Property</button>
+    </form>
+  </div>
+
+  <div class="admin">
+    <h2>Property List</h2>
+    <div id="propertyList"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById("propertyForm");
+    const propertyList = document.getElementById("propertyList");
+
+    // Load saved properties from localStorage
+    let properties = JSON.parse(localStorage.getItem("properties")) || [];
+
+    // Function to render properties
+    function renderProperties() {
+      propertyList.innerHTML = "";
+      properties.forEach((prop, index) => {
+        const card = document.createElement("div");
+        card.classList.add("property-card");
+        card.innerHTML = `
+          <img src="${prop.image}" alt="${prop.title}">
+          <h3>${prop.title}</h3>
+          <p>📍 ${prop.location}</p>
+          <p>💲 ${prop.price}</p>
+          <button onclick="deleteProperty(${index})">❌ Delete</button>
+        `;
+        propertyList.appendChild(card);
+      });
+      // Save updated list to localStorage
+      localStorage.setItem("properties", JSON.stringify(properties));
+    }
+
+    // Add property
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const newProperty = {
+        title: document.getElementById("title").value,
+        location: document.getElementById("location").value,
+        price: document.getElementById("price").value,
+        image: document.getElementById("image").value,
+      };
+      properties.push(newProperty);
+      renderProperties();
+      form.reset();
+    });
+
+    // Delete property
+    function deleteProperty(index) {
+      properties.splice(index, 1);
+      renderProperties();
+    }
+
+    // Initial render
+    renderProperties();
+  </script>
+
+</body>
+</html>
